@@ -14,6 +14,7 @@ var logger = new LoggerConfiguration()
         retainedFileCountLimit: 90
     )
     .WriteTo.Console(new JsonFormatter())
+    .WriteTo.Seq("http://localhost:5341")
     .CreateLogger();
 
 builder.Logging.AddSerilog(logger);
