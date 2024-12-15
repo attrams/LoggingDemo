@@ -1,4 +1,5 @@
 using Serilog;
+using Serilog.Formatting.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ var logger = new LoggerConfiguration()
         rollingInterval: RollingInterval.Day,
         retainedFileCountLimit: 90
     )
+    .WriteTo.Console(new JsonFormatter())
     .CreateLogger();
 
 builder.Logging.AddSerilog(logger);
