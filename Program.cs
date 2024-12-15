@@ -1,8 +1,20 @@
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
+
+// Configure Serilog
+var logger = new LoggerConfiguration()
+    .WriteTo.File(
+        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs/log.txt"),
+        rollingInterval: RollingInterval.Day,
+        retainedFileCountLimit: 90
+    )
+    .CreateLogger();
+
+builder.Logging.AddSerilog(logger);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
